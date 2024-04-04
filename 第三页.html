@@ -1,0 +1,552 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+  <title>导航系统</title>
+  <style>
+    html,
+    body,
+    #container {
+      width: 100%;
+      height: 100%;
+    }
+    #myPageTop{
+      width:300px;
+    }
+    #panel1 {
+      position: fixed;
+      background-color: white;
+      max-height: 90%;
+      overflow-y: auto;
+      top: 10px;
+      right: 10px;
+      width: 280px;
+      border-bottom: solid 1px silver;
+
+    }
+    #panel {
+      position: fixed;
+      background-color: white;
+      max-height: 90%;
+      overflow-y: auto;
+      top: 150px;
+      right: 6px;
+      width: 300px;
+
+    }
+    #panel .amap-call {
+      background-color: #009cf9;
+      border-top-left-radius: 4px;
+      border-top-right-radius: 4px;
+
+    }
+    #panel .amap-lib-driving {
+      border-bottom-left-radius: 4px;
+      border-bottom-right-radius: 4px;
+      overflow: hidden;
+
+    }
+    #dingwei{
+      width:50px;
+      height:30px;
+    }
+    .btn{
+      width:10rem;
+      margin-left:6.8rem;
+    }
+    #myPageTop1 {
+      position: absolute;
+      background: #fff none repeat scroll 0 0;
+      border: 1px solid #ccc;
+      margin: 10px auto;
+      padding:6px;
+      font-family: "Microsoft Yahei", "微软雅黑", "Pinghei";
+      font-size: 14px;
+      display: none;
+    }
+    #myPageTop1 label {
+      margin: 0 20px 0 0;
+      color: #666666;
+      font-weight: normal;
+    }
+    #myPageTop1 input {
+      width: 170px;
+    }
+    #myPageTop1 .column2{
+      padding-left: 25px;
+    }
+
+    #myPageTop2 {
+      position: absolute;
+      background: #fff none repeat scroll 0 0;
+      border: 1px solid #ccc;
+      margin: 10px auto;
+      padding:6px;
+      font-family: "Microsoft Yahei", "微软雅黑", "Pinghei";
+      font-size: 14px;
+      display: none;
+    }
+    #myPageTop2 label {
+      margin: 0 40px 0 0;
+      color: #666666;
+      font-weight: normal;
+    }
+    #myPageTop2 input {
+      width: 170px;
+    }
+    #myPageTop2 .column2{
+      padding-left: 25px;
+    }
+    #myPageTop3 {
+      position: absolute;
+      background: #fff none repeat scroll 0 0;
+      border: 1px solid #ccc;
+      margin: 10px auto;
+      padding:6px;
+      font-family: "Microsoft Yahei", "微软雅黑", "Pinghei";
+      font-size: 14px;
+    }
+    .hidden {
+      display: none;
+    }
+    #first {
+      /*display: inline-block;*/
+      font-weight: 400;
+      text-align: center;
+      white-space: nowrap;
+      vertical-align: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      border: 1px solid transparent;
+      transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+      background-color: transparent;
+      background-image: none;
+      color: #25A5F7;
+      border-color: #25A5F7;
+      padding: .25rem .5rem;
+      line-height: 1.5;
+      border-radius: 1rem;
+      -webkit-appearance: button;
+      cursor:pointer;
+    }
+    #div1 {
+      width: 200px;
+      height: 50px;
+      background: #ccc;
+      display: none;
+    }
+  </style>
+  <script type="text/javascript">
+    window._AMapSecurityConfig = {
+      securityJsCode: "24996ca00c78d16021907c5ce4fd445f",
+    };
+  </script>
+
+  <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />
+  <link rel="stylesheet" href="https://cache.amap.com/lbs/static/main1119.css"/>
+  <script src="https://a.amap.com/jsapi_demos/static/demo-center/js/demoutils.js"></script>
+  <script type="text/javascript" src="https://cache.amap.com/lbs/static/addToolbar.js"></script>
+  <script src="https://webapi.amap.com/loader.js"></script>
+</head>
+<body>
+<div id="container"></div>
+<div id="myPageTop1" style="top:0%;left: 0%" >
+  <table>
+    <tr>
+      <td>
+        <label>请输入起点：</label>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input id='address' type="text">
+      </td>
+      <td>
+        <button id="huoquzuobiao" onclick="huoquzuobiao()">获取坐标</button>
+      </td>
+    </tr>
+
+  </table>
+
+  <table>
+    <tr>
+      <td>
+        <label>查询您要找的目的地：</label>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input type="text2" id="shurudizhi"/>
+      </td>
+      <td>
+        <button onclick="myFunction()" >到这去</button>
+      </td>
+    </tr>
+    <tr>
+    </tr>
+  </table>
+
+</div>
+<div id="myPageTop3" style="bottom: 0%;right:5%">
+
+  <table>
+    <tr>
+      <td>
+        <span>请双击按钮启动功能：</span>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input type="button" id="toggleButton1" value="显示导航模块" onclick="toggleDiv1()"/>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input type="button" id="toggleButton2" value="显示周边查询模块" onclick="toggleDiv2()"/>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input type="button" id='custom' value="打开距离量算" onclick="ceshi()"/>
+        <button id="button2" class="hidden" onclick="guanbiceshi()">关闭距离量算</button>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <button id="dingwei" onclick="dingwei()">定位</button>
+      </td>
+    </tr>
+  </table>
+
+</div>
+<div id="myPageTop2" style="top:0%;left: 20%">
+
+<div class="input-item" style="height: 80px;">
+  <table>
+    <tr>
+      <td>
+        <span>在框内输入查询范围</span>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <button class="btn" id="dianji" onclick="dianji()">获取坐标</button>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <button class="hidden" onclick="zhoubianchaxun()" id="first">周边查询</button>
+      </td>
+    </tr>
+  </table>
+  <table>
+    <tr>
+      <td>
+        <input id="fanwei" value="3000">
+      </td>
+    </tr>
+  </table>
+</div>
+</div>
+  <div style='width:28rem;'>
+  <label style='color:grey'></label>
+  <div class="input-item">
+    <input id="lnglat" style="visibility: hidden;"/>
+    <input id="lnglat1" style="visibility: hidden;"/>
+    <input id="lnglat2" style="visibility: hidden;"/>
+  </div>
+    <input id="regeo" style="visibility: hidden;">
+</div>
+<div id="panel" style="right:10px;top: 0%"></div>
+<div id="panel1"></div>
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=0998401e02d6b93e00465f8edb3cf7a1&plugin=AMap.Driving,AMap.RangingTool,AMap.MouseTool,AMap.Scale,AMap.ToolBar,AMap.ControlBar"></script>
+<script>
+  const firstButton = document.getElementById('dianji');
+  const secondButton = document.getElementById('first');
+  firstButton.addEventListener('click', () => {
+    firstButton.classList.add('hidden');
+    secondButton.classList.remove('hidden');
+  });
+  secondButton.addEventListener('click', () => {
+    secondButton.classList.add('hidden');
+    firstButton.classList.remove('hidden');
+  });
+  function toggleDiv1() {
+    var divElement = document.getElementById("myPageTop1");
+    var divElement1 = document.getElementById("panel1");
+    var buttonElement = document.getElementById("toggleButton1");
+
+    if (divElement.style.display === "none") {
+      divElement.style.display = "block";
+      divElement1.style.display = "block";
+      buttonElement.value = "隐藏导航模块";
+
+    } else {
+      divElement.style.display = "none";
+      divElement1.style.display = "none";
+      buttonElement.value = "显示导航模块";
+      shanchufugaiwu();
+    }
+  }
+  function toggleDiv2() {
+    var divElement1 = document.getElementById("myPageTop2");
+    var divElement2 = document.getElementById("panel");
+    var buttonElement = document.getElementById("toggleButton2");
+
+    if (divElement1.style.display === "none") {
+      divElement1.style.display = "block";
+      divElement2.style.display = "block";
+      buttonElement.value = "隐藏查询模块";
+
+    } else {
+      divElement1.style.display = "none";
+      divElement2.style.display = "none";
+      buttonElement.value = "显示查询模块";
+      shanchufugaiwu();
+    }
+
+  }
+  document.getElementById('custom').addEventListener('click', function() {
+    // 隐藏按钮1
+    this.style.display = 'none';
+    // 显示按钮2
+    document.getElementById('button2').style.display = 'block';
+  });
+
+  document.getElementById('button2').addEventListener('click', function() {
+    // 隐藏按钮2
+    this.style.display = 'none';
+    // 显示按钮1
+    document.getElementById('custom').style.display = 'block';
+  });
+</script>
+
+<script type="text/javascript">
+  var scale = new AMap.Scale(),
+          controlBar = new AMap.ControlBar({
+            position: {
+              bottom:'50px',
+              left: '10px',
+            }
+          }),
+  map = new AMap.Map("container", {
+    rotateEnable:true,
+    pitchEnable:true,
+    // resizeEnable: true,
+    center: [117.079878,36.654882],//地图中心点
+    pitch:50,
+    zoom: 17, //地图显示的缩放级别
+    viewMode:'3D' //开启3D视图,默认为关闭
+  });
+  map.addControl(scale);
+  map.addControl(controlBar);
+  scale.show();
+  controlBar.show();
+
+  document.getElementById('toggleButton1').addEventListener('click', function() {
+    document.getElementById('panel1').innerHTML = '';
+  });
+  document.getElementById('toggleButton2').addEventListener('click', function() {
+    document.getElementById('panel').innerHTML = '';
+  });
+
+  function shanchufugaiwu(){
+    map.clearMap();
+  }
+
+  function ceshi(){
+    var startMarkerOptions= {
+      icon: new AMap.Icon({
+        size: new AMap.Size(19, 31),//图标大小
+        imageSize:new AMap.Size(19, 31),
+        image: "//webapi.amap.com/theme/v1.3/markers/b/start.png"
+      }),
+      offset: new AMap.Pixel(-9, -31)
+    };
+    var endMarkerOptions = {
+      icon: new AMap.Icon({
+        size: new AMap.Size(19, 31),//图标大小
+        imageSize:new AMap.Size(19, 31),
+        image: "//webapi.amap.com/theme/v1.3/markers/b/end.png"
+      }),
+      offset: new AMap.Pixel(-9, -31)
+    };
+    var midMarkerOptions = {
+      icon: new AMap.Icon({
+        size: new AMap.Size(19, 31),//图标大小
+        imageSize:new AMap.Size(19, 31),
+        image: "//webapi.amap.com/theme/v1.3/markers/b/mid.png"
+      }),
+      offset: new AMap.Pixel(-9, -31)
+    };
+    var lineOptions = {
+      strokeStyle: "solid",
+      strokeColor: "#FF33FF",
+      strokeOpacity: 1,
+      strokeWeight: 2
+    };
+    var rulerOptions = {
+      startMarkerOptions: startMarkerOptions,
+      midMarkerOptions:midMarkerOptions,
+      endMarkerOptions: endMarkerOptions,
+      lineOptions: lineOptions
+    };
+    ruler2 = new AMap.RangingTool(map, rulerOptions);
+    ruler2.turnOn();
+
+    map.off();
+  }
+  var ruler2;
+  function guanbiceshi(){
+    ruler2.turnOff();
+  }
+
+  function zhoubianchaxun() {
+    map.clearMap();
+    AMap.plugin(["AMap.PlaceSearch"], function () {
+      //构造地点查询类
+      var placeSearch = new AMap.PlaceSearch({
+        type: '加油站', // 兴趣点类别
+        pageSize: 5, // 单页显示结果条数
+        pageIndex: 1, // 页码
+        map: map, // 展现结果的地图实例
+        panel: "panel", // 结果列表将在此容器中进行展示。
+        autoFitView: true // 是否自动调整地图视野使绘制的 Marker点都处于视口的可见范围
+      });
+
+      var cpoint = [document.getElementById('lnglat1').value,document.getElementById('lnglat2').value];
+      var fanwei = document.getElementById('fanwei').value;
+      console.log(cpoint);
+      placeSearch.searchNearBy('', cpoint, fanwei, function (status, result) {
+      });
+    });
+  }
+
+
+  function dianji(){
+
+    map.on('click',function(e){
+      document.getElementById('lnglat').value = e.lnglat;
+      document.getElementById('lnglat1').value = e.lnglat.getLng();
+      document.getElementById('lnglat2').value = e.lnglat.getLat();
+      regeoCode();
+    })
+    // ruler2.turnOff();
+
+  }
+
+  function dingwei() {
+    //定位代码，自定义标志内容
+    var options = {
+      'showButton': true,//是否显示定位按钮
+      'position': 'LB',//定位按钮的位置
+      /* LT LB RT RB */
+      'offset': [10, 20],//定位按钮距离对应角落的距离
+      'showMarker': true,//是否显示定位点
+      'markerOptions': {//自定义定位点样式，同Marker的Options
+        'offset': new AMap.Pixel(-18, -36),
+        'content': '<img src="https://a.amap.com/jsapi_demos/static/resource/img/user.png" style="width:36px;height:36px"/>'
+      },
+      'showCircle': true,//是否显示定位精度圈
+      'circleOptions': {//定位精度圈的样式
+        'strokeColor': '#0093FF',
+        'noSelect': true,
+        'strokeOpacity': 0.5,
+        'strokeWeight': 1,
+        'fillColor': '#02B0FF',
+        'fillOpacity': 0.25
+      }
+    }
+    AMap.plugin(["AMap.Geolocation"], function () {
+      var geolocation = new AMap.Geolocation(options);
+      map.addControl(geolocation);
+      geolocation.getCurrentPosition()
+    });
+  }
+  //查询
+  var autoOptions = {
+    type:'加油站',
+    city:'济南',
+    input: "shurudizhi"
+  };
+
+  AMap.plugin(['AMap.PlaceSearch','AMap.AutoComplete'], function(){
+    var auto = new AMap.AutoComplete(autoOptions);
+    var placeSearch = new AMap.PlaceSearch({
+      city:"济南",
+      map: map
+    });  //构造地点查询类
+    auto.on("select", select);//注册监听，当选中某条记录时会触发
+    function select(e) {
+      placeSearch.setCity(e.poi.adcode);
+      placeSearch.search(e.poi.name);  //关键字查询查询
+    }
+  });
+
+
+  let geocoder
+          // ,tongg
+  AMap.plugin('AMap.Geocoder',function(){
+    geocoder = new AMap.Geocoder()
+  })
+  // 将marker类实例化
+  var marker = new AMap.Marker();;
+  function regeoCode() {
+      // 获取input里的内容
+      var lnglat  = document.getElementById('lnglat').value.split(',');
+      map.add(marker);
+      marker.setPosition(lnglat);
+
+      geocoder.getAddress(lnglat, function(status, result) {
+        if (status === 'complete'&&result.regeocode) {
+          var address = result.regeocode.formattedAddress;
+          document.getElementById('address').value = address;
+        }else{
+          log.error('根据经纬度查询地址失败')
+        }
+      });
+  }
+  function huoquzuobiao() {
+    map.on('click', function (e) {
+      document.getElementById('lnglat').value = e.lnglat;
+      regeoCode();
+    })
+
+    document.getElementById("regeo").onclick = regeoCode;
+    document.getElementById('lnglat').onkeydown = function (e) {
+      if (e.keyCode === 13) {
+        regeoCode();
+        return false;
+      }
+      return true;
+    };
+  }
+
+  //构造路线导航类
+  var driving = new AMap.Driving({
+    map: map,
+    panel: "panel1"
+  });
+  // 根据起终点名称规划驾车导航路线
+  function myFunction() {
+    var text1 = document.getElementById("address").value;
+    var text2 = document.getElementById("shurudizhi").value;
+    driving.search([
+      {keyword: text1, city: '济南'},
+      {keyword: text2, city: '济南'}
+    ], function (status, result) {
+
+      if (status === 'complete') {
+        log.success('绘制驾车路线完成')
+      } else {
+        log.error('获取驾车数据失败：' + result)
+      }
+    });
+  }
+</script>
+</body>
+</html>

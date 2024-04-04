@@ -1,0 +1,279 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="./css/base.css" />
+    <link rel="stylesheet" type="text/css" href="./css/jquery.dialog.css" />
+    <link rel="stylesheet" href="./css/index.css" />
+    <style>
+      html {
+        *overflow: auto;
+        min-width: 1020px;
+      }
+
+      body {
+        font-family: '微软雅黑';
+        background: #ffffff;
+      }
+      /*页面头部*/
+
+      #hd {
+        height: 60px;
+        background: #ffffff;
+      }
+
+      #hd .hd-wrap {
+        position: relative;
+        height: 74px;
+        /*background: url(../images/topline.png) no-repeat left bottom;*/
+      }
+
+      #hd .hd-wrap .top-light {
+        position: absolute;
+        width: 346px;
+        height: 74px;
+        /*background: url(../images/toplight.png);*/
+        top: 0;
+        left: 0;
+      }
+
+      h1 {
+        float: left;
+        margin: 8px 0 0 200px;
+        width: 260px;
+        height: 64px;
+        /*background: url(../images/LOGO74.png);*/
+        background-repeat: no-repeat;
+        position: relative;
+        top: 1px;
+      }
+
+
+      /* .login-info{ float:left; margin:38px 0 0 23px; height:80px;} */
+
+      .login-info .welcome {
+        float: left;
+        padding-left: 450px;
+        width: 2000px;
+        height: 100px;
+        line-height: 32px;
+        font-size: 52px;
+        color: #fff;
+      }
+
+      .login-info span {
+        /*float: center;*/
+        padding-left: 50%;
+        line-height: 80px;
+        font-size: 20px;
+        font-weight: bold;
+        color: #000000;
+      }
+
+
+      /*调整距离边界差line-height*/
+
+      .login-info .welcome .user-name {
+        float: left;
+        color: #fff;
+      }
+
+      .login-info .login-msg {
+        float: left;
+        margin-left: 22px;
+      }
+
+      .login-info .login-msg a {
+        float: left;
+        height: 18px;
+        line-height: 18px;
+      }
+
+      .toolbar {
+        float: right;
+        margin: 20px 14px 0 0;
+      }
+
+      .toolbar a {
+        float: left;
+        height: 42px;
+        line-height: 42px;
+      }
+
+      /*页面主体*/
+
+      #bd {
+        padding-top: 6px;
+        margin: 0 4px;
+        /*background: #fff url(../images/centertopbg.png) repeat-x left top;*/
+      }
+
+      #bd .wrap {
+        padding-left: 187px;
+        padding-bottom: 6px;
+        padding-right: 6px;
+        /*background: url(../images/centerbottombg.png) repeat-x left bottom;*/
+      }
+
+      .sidebar {
+        height: 100%;
+        float: left;
+        margin-left: -181px;
+        width: 175px;
+        overflow-y: auto;
+        background: #0b2c89;
+      }
+
+      /*主导航*/
+
+      .sidebar .nav {
+        border: 1px solid #bdd0db;
+        border-top: none;
+        background: #c0e0f3;
+      }
+
+      .sidebar .nav>li {
+        line-height: 60px;
+        border-bottom: 0px solid #d2caca;
+        cursor: pointer;
+      }
+
+      .sidebar .nav>li.current .nav-header {
+        background: #ffffff;
+        border-color: #ffffff;
+      }
+
+      .sidebar .nav>li.current .nav-header span {
+        color: #ff0000;
+      }
+
+      .sidebar .nav>li .nav-header {
+        padding-right: 14px;
+      }
+
+      .sidebar .nav>li .nav-header a {
+        display: block;
+        margin-left: 15px;
+        padding-left: 32px;
+        color: #000;
+        font-size: 13px;
+      }
+
+      .sidebar .nav>li .nav-header a span {
+        float: left;
+      }
+
+      /*.sidebar .nav>li.office .nav-header a {*/
+      /*  !*background: url(../images/1.jpg) no-repeat left center;*!*/
+      /*  background-size: 20px 20px;*/
+      /*}*/
+
+      /*.sidebar .nav>li.land .nav-header a {*/
+      /*  !*background: url(../images/1.jpg) no-repeat left center;*!*/
+      /*  background-size: 20px 20px;*/
+      /*}*/
+      /*.box {*/
+      /*    width: 100%;*/
+      /*    height: 40px;*/
+      /*    line-height: 40px;*/
+      /*    background: #a5b4fc;*/
+      /*    color: #fff;*/
+      /*    overflow: hidden;*/
+      /*}*/
+
+      /*.content {*/
+      /*    white-space: nowrap;*/
+      /*    !*width: 100%;*!*/
+
+      /*}*/
+      .box {
+          max-width: 100%;
+          border: 1px solid;,zhuyi1
+      }
+
+      .scroll-wrap {
+          overflow: hidden;
+          white-space: nowrap;
+      }
+
+      .scroll-item {
+          animation: scroll linear 10s alternate infinite;
+      }
+
+      @keyframes scroll {
+          0% {
+              left: 0;
+              transform: translateX(0%);
+          }
+
+          100% {
+              left: 50%;
+              transform: translateX(100%);
+          }
+      }
+    </style>
+  <script type="text/javascript">
+    window._AMapSecurityConfig = {
+      securityJsCode: "24996ca00c78d16021907c5ce4fd445f",
+    };
+  </script>
+    <title>加油站查询系统</title>
+  <script type="text/javascript"
+          src="https://webapi.amap.com/maps?v=1.4.15&key=0998401e02d6b93e00465f8edb3cf7a1"></script>
+</head>
+<body>
+    <div id="container">
+        <div id="hd">
+            <div class="login-info ue-clear">
+<!--              <img src="images/山海.jpg" width="160px" height="80px" style="margin-bottom:-20px" >-->
+              <span style="color:white" > 济南加油站查询系统</span>
+<!--              <div style="float:right;padding-top: 1%;">-->
+
+<!--              </div>-->
+
+        </div>
+            </div>
+        <hr style="border: 1px solid #d2caca;">
+        <div class="box">
+            <div class="scroll-wrap">
+                <div class="scroll-item">
+                   <span style="text-align: center;color: red">加油站系统欢迎您！！！</span>
+                </div>
+            </div>
+        </div>
+        <div id="bd">
+            <div class="wrap ue-clear">
+                <div class="sidebar">
+                  <h2 class="sidebar-header"><p>功能导航</p></h2>
+                    <ul class="nav">
+                        <li class="land"><div class="nav-header"><a href="第一页.html" target="right" class="ue-clear"><span>查看专题图</span><i class="icon"></i></a></div></li>
+                        <li class="land"><div class="nav-header"><a href="第二页.html" target="right" class="ue-clear"><span>图查属性</span><i class="icon"></i></a></div></li>
+                        <li class="land"><div class="nav-header"><a href="第三页.html" target="right" class="ue-clear"><span>导航</span><i class="icon hasChild"></i></a></div></li>
+                        <li class="land"><div class="nav-header"><a href="第四页.html" target="right" class="ue-clear"><span>要素编辑</span><i class="icon hasChild"></i></a></div></li>
+                    </ul>
+                </div>
+                <div class="content">
+                    <iframe src="4.html" id="iframe" width="100%" height="100%" frameborder="0" name="right" style="min-width: 1100px"></iframe>
+                </div>
+            </div>
+        </div>
+      <div id="ft" class="foot_div">
+        <em>山东交通学院交通土建工程学院</em>
+      </div>
+    </div>
+</body>
+<script type="text/javascript" src="./js/jquery.js"></script>
+<script type="text/javascript" src="./js/core.js"></script>
+<script type="text/javascript" src="./js/jquery.dialog.js"></script>
+<script type="text/javascript" src="./js/index.js"></script>
+<script src="./js/layer_v2.1/layer/layer.js"></script>
+<script>
+    alert('欢迎访问网页');
+  const myDiv = document.getElementById('hd');
+// 设置背景图片（URL替换为你的图片地址）
+myDiv.style.backgroundImage = 'url("./images/1.jpg")';
+// 可选：设置背景图片的其他样式属性，如背景大小、位置等
+myDiv.style.backgroundSize = 'cover'; // 覆盖整个div
+myDiv.style.backgroundPosition = 'center'; // 图片居中
+</script>
+</html>

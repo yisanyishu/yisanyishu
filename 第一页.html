@@ -1,0 +1,70 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no" />
+
+    <title>加载专题地图</title>
+
+    <link rel="stylesheet" href="https://js.arcgis.com/4.29/esri/themes/dark/main.css" />
+
+    <style>
+        html,
+        body,
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+    </style>
+
+    <script src="https://js.arcgis.com/4.29/"></script>
+
+    <script>
+        require([
+            "esri/config",
+            "esri/WebMap",
+            "esri/views/MapView",
+            "esri/widgets/LayerList"
+            ], (esriConfig,
+                WebMap,
+                MapView,
+                LayerList) => {
+            esriConfig.apiKey = "AAPK2d598b610e474081ade371f62dc516c7k7EXhiuYvEaoHxv_OO4qLWsU2n9rkbZuCl28EskMCcZrf9DtKPQ96K8pBW0PwbZq";
+            const map = new WebMap({
+                    portalItem: {
+                        id: "783bd43737e3463dafb9c30aca107fee"
+                    }
+                });
+
+                // Add the map to a MapView
+                const view = new MapView({
+                    container: "viewDiv",
+                    map: map
+                });
+
+                // Add a legend instance to the panel of a
+                // ListItem in a LayerList instance
+                const layerList = new LayerList({
+                    view: view,
+                    listItemCreatedFunction: (event) => {
+                        const item = event.item;
+                        if (item.layer.type != "group") {
+                            // don't show legend twice
+                            item.panel = {
+                                content: "legend",
+                                open: true
+                            };
+                        }
+                    }
+                });
+                view.ui.add(layerList, "bottom-left");
+            });
+    </script>
+</head>
+
+<body>
+<div id="viewDiv"></div>
+</body>
+</html>

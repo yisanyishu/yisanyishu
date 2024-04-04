@@ -1,0 +1,88 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>要素修改</title>
+    <style>
+        html, body, #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.29/esri/themes/light/main.css">
+    <script src="https://js.arcgis.com/4.29/"></script>
+    <script>
+
+        require([
+            "esri/config",
+            "esri/WebMap",
+            "esri/Map",
+            "esri/views/MapView",
+            "esri/layers/FeatureLayer",
+            "esri/widgets/Editor"
+
+        ], function(esriConfig,
+                    WebMap,
+                    Map,
+                    MapView,
+                    FeatureLayer,
+                    Editor) {
+
+            // Reference a feature layer to edit
+            const myPointsFeatureLayer = new FeatureLayer({
+                url: "https://services7.arcgis.com/cITFEGPJL0xG3Wdx/arcgis/rest/services/xiaoqubujianaosutuceng/FeatureServer"
+            });
+
+            esriConfig.apiKey = "AAPK2d598b610e474081ade371f62dc516c7k7EXhiuYvEaoHxv_OO4qLWsU2n9rkbZuCl28EskMCcZrf9DtKPQ96K8pBW0PwbZq";
+
+            const map = new WebMap({
+                portalItem: {
+                    id: "e30bbbfb287e4cc5a83e45c64776d1b4"
+                }
+            });
+
+            const view = new MapView({
+                container: "viewDiv",
+                map: map,
+                center: [117.079878,36.654882],
+                zoom: 9
+            });
+
+            const button = document.createElement("button");
+            button.textContent = "开启数据更新功能";
+            let editor = null; // 用于跟踪编辑器微件的引用
+            // 当点击按钮时调用微件或关闭/隐藏微件
+            button.addEventListener("click", () => {
+                if (!editor) {
+                    // 如果编辑器微件不存在，则创建并添加到视图的右上角
+                    editor = new Editor({
+                        view: view
+                    });
+                    view.ui.add(editor, "top-left");
+                    button.textContent = "关闭数据更新功能"; // 更新按钮文本
+                } else {
+                    // 如果编辑器微件已经存在，则移除它
+                    view.ui.remove(editor);
+                    editor.destroy(); // 销毁编辑器以释放资源
+                    editor = null; // 重置编辑器引用
+                    button.textContent = "开启数据更新功能"; // 更新按钮文本
+                }
+            });
+            // 将按钮添加到视图的 UI 中
+            view.ui.add(button, "top-left");
+            view.when(() => {
+                const layerList = new LayerList({
+                    view: view
+                });
+                // Add widget to the top right corner of the view
+                view.ui.add(layerList, "top-left");
+            });
+        });
+    </script>
+</head>
+<body>
+<div id="viewDiv"></div>
+</body>
+</html>
